@@ -1,3 +1,5 @@
+These functions were executed in MySql Workbench and the data set is "Sales_dataset"
+
 delimiter $$
 create function add_to_col(a int)
 returns int
