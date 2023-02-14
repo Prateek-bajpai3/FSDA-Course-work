@@ -1,0 +1,98 @@
+delimiter $$
+create function add_to_col(a int)
+returns int
+deterministic 
+begin 
+declare b int;
+set b = a+10;
+return b;
+end$$
+call sales
+
+select max(sales) from sales1
+select add_to_col(15)
+
+call sales
+
+select quantity,add_to_col(quantity) as updated_quantity from sales1
+
+delimiter $$
+create function final_profit(profit int,discount int)
+returns int
+deterministic
+begin
+declare final_profit int;
+set  final_profit = profit - discount;
+return final_profit;
+end $$
+
+select final_profit(10000,10000)
+ select profit,discount,final_profit(profit,discount) as final_profit from sales1
+
+delimiter $$
+create function final_profit1(profit decimal(20,6),discount decimal(20,6), sales decimal(20,6))
+returns int
+deterministic
+begin
+declare final_profit int ;
+set final_profit = profit - sales*discount;
+return final_profit;
+end $$
+
+select profit, discount ,sales,final_profit1(profit,discount,sales) from sales1
+
+delimiter $$
+create function int_to_str(a int)
+returns varchar(30)
+deterministic
+begin
+declare b varchar(30);
+set b = a;
+return b;
+end $$
+
+select int_to_str(15) as `string`
+
+call sales
+select quantity,int_to_str(quantity) as `string` from sales1
+
+select max(sales),min(sales) from sales1
+
+1-100 super affordable
+100-300 affordable
+300 600 = moderate 
+600+ expensive
+
+delimiter &&
+create function mark_sales(sales int)
+returns varchar(30)
+deterministic
+begin
+declare flag_sales varchar(30);
+if sales <= 100 then 
+   set flag_sales = 'super affordable product';
+elseif sales > 100 and sales <= 300 then
+   set flag_sales = 'affordable product';
+elseif sales > 300 and sales < 600 then
+   set flag_sales = 'moderately priced product' ;
+else
+   set flag_sales = 'expensive product';
+end if;
+return flag_sales;
+end &&
+
+
+select mark_sales(300)
+select sales,mark_sales(sales) from sales1
+
+alter table sales1
+drop column mark_sales 
+
+call sales
+
+alter table sales1
+add column mark_sales  varchar(30) after sales
+
+SET SQL_SAFE_UPDATES = 0;
+update sales1
+set mark_sales= mark_sales(sales)
