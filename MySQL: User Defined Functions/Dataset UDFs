@@ -1,4 +1,4 @@
-These functions were executed in MySql Workbench and the data set is "Sales_data" uploaded in the "User Defined Functions" folder
+These functions were executed in MySql Workbench and the data set is "Sales_data" uploaded in the "My SQL : User Defined Functions" folder
 
 delimiter $$
 create function add_to_col(a int)
